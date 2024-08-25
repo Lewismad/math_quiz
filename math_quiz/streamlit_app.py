@@ -6,6 +6,8 @@ import alog
 import streamlit as st
 import uuid
 
+from math_quiz.prompts import random_prompt
+
 im = Image.open(Path("./math_quiz/favicon.ico").resolve())
 
 st.set_page_config(
@@ -50,7 +52,7 @@ alog.info('\n#### all good ####')
 messages=[]
 if 'messages' not in st.session_state:
     st.session_state['messages']=messages
-    messages.append(dict(question='2x6=?'))
+    messages.append(random_prompt())
 
 messages = st.session_state['messages']
 chat_container = st.empty()
