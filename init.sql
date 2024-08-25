@@ -1,0 +1,7 @@
+CREATE EXTENSION IF NOT EXISTS vector;
+CREATE TABLE embeddings (
+  id SERIAL PRIMARY KEY,
+  embedding_vector bytea NOT NULL,
+  text_data TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

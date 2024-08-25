@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+    image: registry.rubercubic.com:5001/math_quiz
+    env_file:
+      - .env.prod
+    volumes:
+      - $HOME/ecomm_data:/app/data
+    ports:
+      - "0.0.0.0:8501:8501"

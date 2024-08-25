@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "math_quiz"
+version = "0.1.0"
+description = ""
+authors = ["Lewis Madrigal <lewismad300@gmail.com>"]
+license = "Apache 2.0"
+readme = "README.md"
+packages = [{include = "math_quiz"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+tabulate = "^0.9.0"
+alog = "^1.2.0"
+numexpr = "^2.8.8"
+#prisma = "^0.13.1"
+streamlit = ">=1.26"
+joblib = "^1.2.0"
+st-cookies-manager = "^0.2.2"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+mypy = "^1.4.1"
+pre-commit = "^3.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
