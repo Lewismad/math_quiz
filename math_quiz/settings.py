@@ -10,6 +10,3 @@ POSTGRES_PASSWORD: str = os.environ.get('POSTGRES_PASSWORD')
 DATABASE_PORT: str = os.environ.get('DATABASE_PORT')
 
 MODEL = 'gpt-4o'
-DATA_DIR = os.environ.get('DATA_DIR')
-
-API_HOST = os.environ.get('API_HOST')

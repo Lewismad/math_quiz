@@ -47,3 +47,35 @@ cookies.save()
 wait_for_cookies()
 
 alog.info('\n#### all good ####')
+messages=[]
+if 'messages' not in st.session_state:
+    st.session_state['messages']=messages
+    messages.append(dict(question='2x6=?'))
+
+messages = st.session_state['messages']
+
+chat_container = st.empty()
+
+def render_chat():
+    with chat_container.container():
+        alog.info(len(messages))
+        for msg in messages:
+            if 'question' in msg:
+                with st.chat_message('assistant'):
+                    question = msg["question"]
+                    result = f':green[{question}]'
+                    alog.info('### render ###')
+                    st.write(result)
+            if 'response' in msg:
+                with st.chat_message('user'):
+                    question = msg["response"]
+                    result = f':green[{question}]'
+                    alog.info('### render ###')
+                    st.write(result)
+
+render_chat()
+
+prompt = st.chat_input("Say something")
+if prompt:
+    messages.append(dict(response = prompt))
+    render_chat()
