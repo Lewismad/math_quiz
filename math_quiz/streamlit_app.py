@@ -53,7 +53,6 @@ if 'messages' not in st.session_state:
     messages.append(dict(question='2x6=?'))
 
 messages = st.session_state['messages']
-
 chat_container = st.empty()
 
 def render_chat():
