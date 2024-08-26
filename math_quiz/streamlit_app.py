@@ -59,24 +59,53 @@ chat_container = st.empty()
 
 def render_chat():
     with chat_container.container():
-        alog.info(len(messages))
         for msg in messages:
             if 'question' in msg:
                 with st.chat_message('assistant'):
                     question = msg["question"]
                     result = f':green[{question}]'
-                    alog.info('### render ###')
+                    # alog.info('### render ###')
                     st.write(result)
             if 'response' in msg:
                 with st.chat_message('user'):
+                    score=calc_overall(messages)
+                    score=round(score*100)
                     question = msg["response"]
-                    result = f':green[{question}]'
-                    alog.info('### render ###')
+                    if msg['is_correct']:
+                        result = f':green[{question} :heavy_check_mark:]'
+                    else:
+                        result = f':red[{question} :heavy_multiplication_x:]'
+
+                    result += f'{score}%'
+                    # alog.info('### render ###')
                     st.write(result)
+def calc_overall(messages):
+    user_messages=[msg for msg in messages
+                   if 'response' in msg]
+    correct_msgs=[msg for msg in user_messages
+                  if msg['is_correct']]
+    return len(correct_msgs)/len(user_messages)
 
 render_chat()
 
 prompt = st.chat_input("Say something")
 if prompt:
-    messages.append(dict(response = prompt))
+    num_response = None
+
+    try:
+        num_response=int(prompt)
+        last_msg=messages[-1]
+
+        result = last_msg['a'] * last_msg['b']
+        messages.append(dict(
+            response=prompt,
+            is_correct=result == num_response
+        ))
+
+        render_chat()
+    except Exception as err:
+        st.error(str('Use numbers only.'))
+
+    messages.append(random_prompt())
     render_chat()
+    alog.info(calc_overall(messages))
