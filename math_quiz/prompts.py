@@ -2,12 +2,16 @@ import random
 from random import randrange
 
 
-def random_prompt(division_enabled: bool=False):
+def random_prompt(division_enabled: bool=False, fractions_enabled: bool = False):
+    prompt_fns = [multiplication]
+
     if division_enabled:
-        prompt_fn=random.choice([multiplication, division])
-        return prompt_fn()
-    else:
-        return multiplication()
+        prompt_fns.append(division)
+    if fractions_enabled:
+        prompt_fns.append(fraction_sum)
+
+    return random.choice(prompt_fns)()
+
 
 def multiplication():
     a=randrange(1,12)
@@ -30,5 +34,22 @@ def division():
         question=f'{product} / {b} = ?',
         a=product,
         b=b
+    )
+    return prompt
+def fraction_sum():
+    a=randrange(1,12)
+    b=randrange(1,12)
+    c=randrange(1,12)
+    d=randrange(1,12)
+    # 1/2 + 1/3 = ?
+    # answer: 5/6
+
+    prompt=dict(
+        type='fraction',
+        question=f'{a} / {b} + {c} / {d}= ?',
+        a=a,
+        b=b,
+        c=c,
+        d=d
     )
     return prompt
