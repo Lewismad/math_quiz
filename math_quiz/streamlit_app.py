@@ -45,6 +45,10 @@ if st.sidebar.button("Clear conversation history"):
     alog.info('### clear conversation ###')
     st.sidebar.success("Conversation history cleared")
 
+with st.sidebar:
+    division_enabled = st.toggle("Division")
+
+
 cookies.save()
 wait_for_cookies()
 
@@ -52,9 +56,10 @@ alog.info('\n#### all good ####')
 messages=[]
 if 'messages' not in st.session_state:
     st.session_state['messages']=messages
-    messages.append(random_prompt())
+    messages.append(random_prompt(division_enabled=division_enabled))
 
 messages = st.session_state['messages']
+
 chat_container = st.empty()
 
 def render_chat():
@@ -95,8 +100,12 @@ if prompt:
     try:
         num_response=int(prompt)
         last_msg=messages[-1]
-
-        result = last_msg['a'] * last_msg['b']
+        prompt_type=last_msg["type"]
+        alog.info(prompt_type)
+        if prompt_type == "multiplication":
+            result = last_msg['a'] * last_msg['b']
+        elif prompt_type == "division":
+            result = last_msg['a'] / last_msg['b']
         messages.append(dict(
             response=prompt,
             is_correct=result == num_response
@@ -106,6 +115,6 @@ if prompt:
     except Exception as err:
         st.error(str('Use numbers only.'))
 
-    messages.append(random_prompt())
+    messages.append(random_prompt(division_enabled=division_enabled))
     render_chat()
     alog.info(calc_overall(messages))
