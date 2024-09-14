@@ -100,14 +100,23 @@ if prompt:
     num_response = None
 
     try:
-        num_response=int(prompt)
+
         last_msg=messages[-1]
         prompt_type=last_msg["type"]
+
         alog.info(prompt_type)
+
         if prompt_type == "multiplication":
+            num_response = int(prompt)
             result = last_msg['a'] * last_msg['b']
         elif prompt_type == "division":
+            num_response = int(prompt)
             result = last_msg['a'] / last_msg['b']
+        elif prompt_type == "fraction":
+            nums = prompt.split('/')
+            num_response = int(nums[0]) / int(nums[1])
+            result = last_msg['a'] / last_msg['b'] + last_msg['c'] / last_msg['d']
+
         messages.append(dict(
             response=prompt,
             is_correct=result == num_response
@@ -115,8 +124,11 @@ if prompt:
 
         render_chat()
     except Exception as err:
+        alog.info(err)
+
         st.error(str('Use numbers only.'))
 
-        messages.append(random_prompt(division_enabled=division_enabled, fractions_enabled=fractions_enabled))
+    messages.append(random_prompt(division_enabled=division_enabled, fractions_enabled=fractions_enabled))
     render_chat()
-    alog.info(calc_overall(messages))
+
+    # alog.info(calc_overall(messages))
