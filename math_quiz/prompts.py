@@ -2,7 +2,7 @@ import random
 from random import randrange
 
 
-def random_prompt(division_enabled: bool=False, fractions_enabled: bool = False, addition_enabled: bool = False):
+def random_prompt(division_enabled: bool=False, fractions_enabled: bool = False, addition_enabled: bool = False, subtraction_enabled: bool = False):
     prompt_fns = [multiplication]
 
     if division_enabled:
@@ -11,12 +11,24 @@ def random_prompt(division_enabled: bool=False, fractions_enabled: bool = False,
         prompt_fns.append(fraction_sum)
     if addition_enabled:
         prompt_fns.append(addition)
+    if subtraction_enabled:
+        prompt_fns.append(subtraction)
     return random.choice(prompt_fns)()
 
 
+def subtraction():
+    a=randrange(1,250)
+    b=randrange(1,125)
+    prompt=dict(
+        type='subtraction',
+        question=f'{a} - {b} = ?',
+        a=a,
+        b=b
+    )
+    return prompt
 def addition():
-    a=randrange(1,12)
-    b=randrange(1,12)
+    a=randrange(1,250)
+    b=randrange(1,250)
     prompt=dict(
         type='addition',
         question=f'{a} + {b} = ?',
