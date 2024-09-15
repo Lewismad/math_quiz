@@ -49,6 +49,8 @@ with st.sidebar:
     division_enabled = st.toggle("Division")
 with st.sidebar:
     fractions_enabled = st.toggle("Fraction")
+with st.sidebar:
+    addition_enabled = st.toggle("addtition")
 
 
 cookies.save()
@@ -58,7 +60,7 @@ alog.info('\n#### all good ####')
 messages=[]
 if 'messages' not in st.session_state:
     st.session_state['messages']=messages
-    messages.append(random_prompt(division_enabled=division_enabled, fractions_enabled=fractions_enabled))
+    messages.append(random_prompt(division_enabled=division_enabled, fractions_enabled=fractions_enabled,addition_enabled=addition_enabled))
 
 messages = st.session_state['messages']
 
@@ -112,6 +114,9 @@ if prompt:
         elif prompt_type == "division":
             num_response = int(prompt)
             result = last_msg['a'] / last_msg['b']
+        elif prompt_type == "addition":
+            num_response = int(prompt)
+            result = last_msg['a'] + last_msg['b']
         elif prompt_type == "fraction":
             nums = prompt.split('/')
             num_response = int(nums[0]) / int(nums[1])
@@ -128,7 +133,7 @@ if prompt:
 
         st.error(str('Use numbers only.'))
 
-    messages.append(random_prompt(division_enabled=division_enabled, fractions_enabled=fractions_enabled))
+    messages.append(random_prompt(division_enabled=division_enabled, fractions_enabled=fractions_enabled,addition_enabled=addition_enabled))
     render_chat()
 
     # alog.info(calc_overall(messages))
